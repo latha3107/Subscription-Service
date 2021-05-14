@@ -2,7 +2,8 @@ import java.util.*;
 import javax.swing.JOptionPane;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-
+import java.util.Calendar;
+import java.util.Date;
 
 public class Subscription_Service {
 	
@@ -13,6 +14,7 @@ public class Subscription_Service {
 		
         String invoice_date = JOptionPane.showInputDialog("Enter Invoice Dates DD/MM/YYYY: ");
         String[] newInvoiceDate = null;
+        String lastArray = null;
         //System.out.println(invoice_date);
 
         SimpleDateFormat check_inv_date=new SimpleDateFormat("dd/MM/yyyy");
@@ -33,11 +35,12 @@ public class Subscription_Service {
 	    
 	    if (subs_type == "DAILY") {
 	    	//System.out.println("You chose DAILY "+invoice_date);
-	    	
+	    	newInvoiceDate = new String[7];
 	    	for (int i = 0; i < 7; i++) {
 
 	    	    // add days for 1 week
-	    		Calendar c = Calendar.getInstance();
+	    		Calendar c = Calendar.getInstance();	    			        
+	    		
 	    		try {
 	    			c.setTime(check_inv_date.parse(invoice_date));
 	    		} catch(ParseException e) {
@@ -45,20 +48,21 @@ public class Subscription_Service {
 	    		}
 	    		c.add(Calendar.DAY_OF_MONTH,i);
 	    		
-	    		newInvoiceDate = new String[7];
 	    		newInvoiceDate[i]= check_inv_date.format(c.getTime());
-	    		System.out.println("newInvoiceDate[i]: "+newInvoiceDate[i]);
-	    		System.out.println("array: "+Arrays.toString(newInvoiceDate));
-	    		
+	    		//System.out.println("newInvoiceDate[i]: "+newInvoiceDate[i]);
+	    		lastArray = newInvoiceDate[newInvoiceDate.length-1];
+	    		//System.out.println("lastArray: "+lastArray);
+
 	    	}
 	    	
 	    } else if (subs_type == "WEEKLY") {
 	    	//System.out.println("You chose WEEKLY "+invoice_date);
-	    	
+	    	newInvoiceDate = new String[4];
 	    	for (int i = 0; i < 4; i++) {
 
 	    	    // add weeks for 1 month
 	    		Calendar c = Calendar.getInstance();
+	            
 	    		try {
 	    			c.setTime(check_inv_date.parse(invoice_date));
 	    		} catch(ParseException e) {
@@ -66,19 +70,20 @@ public class Subscription_Service {
 	    		}
 	    		c.add(Calendar.WEEK_OF_MONTH,i);
 	    		
-	    		newInvoiceDate = new String[4];
 	    		newInvoiceDate[i]= check_inv_date.format(c.getTime());
 	    		//System.out.println("array: "+Arrays.toString(newInvoiceDate));
-	    		
+	    		lastArray = newInvoiceDate[newInvoiceDate.length-1];
+	    		//System.out.println("lastArray: "+lastArray);
 	    	}
 	    	
 	    } else if (subs_type == "MONTHLY") {
 	    	//System.out.println("You chose MONTHLY "+invoice_date);
-	    	
+	    	newInvoiceDate = new String[3];
 	    	for (int i = 0; i < 3; i++) {
 
 	    	    // add weeks for 1 month
 	    		Calendar c = Calendar.getInstance();
+	            
 	    		try {
 	    			c.setTime(check_inv_date.parse(invoice_date));
 	    		} catch(ParseException e) {
@@ -86,20 +91,15 @@ public class Subscription_Service {
 	    		}
 	    		c.add(Calendar.MONTH,i);
 	    		
-	    		newInvoiceDate = new String[3];
 	    		newInvoiceDate[i]= check_inv_date.format(c.getTime());
 	    		//System.out.println("array: "+Arrays.toString(newInvoiceDate));
-	    		
+	    		lastArray = newInvoiceDate[newInvoiceDate.length-1];
+	    		//System.out.println("lastArray: "+lastArray);
 	    	}
-	    }
-	    
-    	for (int j = 0; j < newInvoiceDate.length; j++) {
-    		//System.out.println("newInvoiceDate.length: "+newInvoiceDate.length);
-    		//System.out.println("newInvoiceDate: "+newInvoiceDate[j]);
+	    }	
     	
-        JOptionPane.showMessageDialog(null, "A "+subs_type+" subscription every Tuesday for "+amount+" $ from the "+invoice_date+" will have the following invoice dates: "+Arrays.toString(newInvoiceDate));
+        JOptionPane.showMessageDialog(null, "A "+subs_type+" subscription every Tuesday for "+amount+" $ from the "+invoice_date+" to the "+lastArray+" will have the following invoice dates: "+Arrays.toString(newInvoiceDate));
         System.exit(0);
-    	}
               
 	}
 
